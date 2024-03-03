@@ -119,21 +119,7 @@ export const ReportTableRow = memo(
           width="flex"
           privacyFilter
         />
-        <Cell
-          value={integerToCurrency(Math.round(average))}
-          title={
-            Math.abs(Math.round(average / 100)) > 100000
-              ? integerToCurrency(Math.round(average))
-              : undefined
-          }
-          style={{
-            fontWeight: 600,
-            minWidth: compact ? 50 : 85,
-          }}
-          valueStyle={compactStyle}
-          width="flex"
-          privacyFilter
-        />
+
       </Row>
     );
   },

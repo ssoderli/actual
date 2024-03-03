@@ -24,6 +24,9 @@ export const BudgetTotals = memo(function BudgetTotals({
   collapseAllCategories,
 }: BudgetTotalsProps) {
   const [menuOpen, setMenuOpen] = useState(false);
+  console.log('budget totals')
+  console.log(MonthComponent)
+
   return (
     <View
       data-testid="budget-totals"

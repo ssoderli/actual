@@ -76,7 +76,13 @@ export function createCustomSpreadsheet({
     accounts,
   );
 
-  return async (spreadsheet, setData) => {
+  console.log('making custom spreadsheet')
+  console.log(startDate)
+  console.log(endDate)
+  let constStartDate = '2020-01'
+  let constEndDate = '2120-01'
+
+    return async (spreadsheet, setData) => {
     if (groupByList.length === 0) {
       return null;
     }
@@ -90,8 +96,8 @@ export function createCustomSpreadsheet({
       runQuery(
         makeQuery(
           'assets',
-          startDate,
-          endDate,
+          constStartDate,
+          constEndDate,
           selectedCategories,
           categoryFilter,
           conditionsOpKey,
@@ -101,8 +107,8 @@ export function createCustomSpreadsheet({
       runQuery(
         makeQuery(
           'debts',
-          startDate,
-          endDate,
+          constStartDate,
+          constEndDate,
           selectedCategories,
           categoryFilter,
           conditionsOpKey,
@@ -110,8 +116,9 @@ export function createCustomSpreadsheet({
         ),
       ).then(({ data }) => data),
     ]);
-
-    const months = monthUtils.rangeInclusive(startDate, endDate);
+    console.log(assets)
+    console.log(debts)
+    const months = monthUtils.rangeInclusive(constStartDate, constEndDate);
 
     let totalAssets = 0;
     let totalDebts = 0;
@@ -208,8 +215,8 @@ export function createCustomSpreadsheet({
       data: calcDataFiltered,
       monthData,
       legend,
-      startDate,
-      endDate,
+      constStartDate,
+      constEndDate,
       totalDebts: integerToAmount(totalDebts),
       totalAssets: integerToAmount(totalAssets),
       totalTotals: integerToAmount(totalAssets + totalDebts),

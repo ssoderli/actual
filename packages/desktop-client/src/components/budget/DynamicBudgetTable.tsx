@@ -11,16 +11,17 @@ import { BudgetTable } from './BudgetTable';
 
 function getNumPossibleMonths(width: number) {
   const estimatedTableWidth = width - 200;
-
-  if (estimatedTableWidth < 500) {
+  console.log('getNumPossbileMonths')
+  console.log(estimatedTableWidth)
+  if (estimatedTableWidth < 300) {
     return 1;
-  } else if (estimatedTableWidth < 750) {
+  } else if (estimatedTableWidth < 450) {
     return 2;
-  } else if (estimatedTableWidth < 1000) {
+  } else if (estimatedTableWidth < 600) {
     return 3;
-  } else if (estimatedTableWidth < 1250) {
+  } else if (estimatedTableWidth < 750) {
     return 4;
-  } else if (estimatedTableWidth < 1500) {
+  } else if (estimatedTableWidth < 900) {
     return 5;
   }
 

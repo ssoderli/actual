@@ -50,14 +50,30 @@ export function ToBudget({
     name: rolloverBudget.toBudget,
     value: 0,
   });
+
+  const spentValue = useSheetValue({
+    name: rolloverBudget.totalSpent,
+    value: 0,
+  });
+  const spentParsed = parseInt(spentValue);
+  const spentNum = isNaN(spentParsed) ? 0 : spentParsed;
+
+  const incomeValue = useSheetValue({
+    name: rolloverBudget.totalIncome,
+    value: 0,
+  });
+  const incomeParsed = parseInt(incomeValue);
+  const incomeNum = isNaN(incomeParsed) ? 0 : incomeParsed;
+
   const format = useFormat();
   const availableValue = parseInt(sheetValue);
-  const num = isNaN(availableValue) ? 0 : availableValue;
+  // const num = isNaN(availableValue) ? 0 : availableValue;
+  const num = incomeNum + spentNum
   const isNegative = num < 0;
 
   return (
     <View style={{ alignItems: 'center', ...style }}>
-      <Block>{isNegative ? 'Overbudgeted:' : 'To Budget:'}</Block>
+      <Block>{'Balance'}</Block>
       <View>
         <HoverTarget
           disabled={!showTotalsTooltipOnHover || menuOpen}

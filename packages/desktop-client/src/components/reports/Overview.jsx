@@ -19,7 +19,8 @@ export function Overview() {
   const customReports = useReports();
   const sankeyFeatureFlag = useFeatureFlag('sankeyReport');
 
-  const customReportsFeatureFlag = useFeatureFlag('customReports');
+  // const customReportsFeatureFlag = useFeatureFlag('customReports');
+  const customReportsFeatureFlag = true
 
   const accounts = useAccounts();
   return (

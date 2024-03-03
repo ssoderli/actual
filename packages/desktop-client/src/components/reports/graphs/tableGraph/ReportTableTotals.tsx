@@ -82,7 +82,7 @@ export function ReportTableTotals({
             flexShrink: 0,
           }}
           valueStyle={compactStyle}
-          value="Totals"
+          value="Sum"
         />
         {mode === 'time'
           ? data.monthData.map(item => {
@@ -93,6 +93,7 @@ export function ReportTableTotals({
                   }}
                   valueStyle={compactStyle}
                   key={amountToCurrency(item[balanceTypeOp])}
+                  //value={amountToCurrency(item[balanceTypeOp])}
                   value={amountToCurrency(item[balanceTypeOp])}
                   title={
                     Math.abs(item[balanceTypeOp]) > 100000
@@ -150,20 +151,7 @@ export function ReportTableTotals({
           width="flex"
           privacyFilter
         />
-        <Cell
-          style={{
-            minWidth: compact ? 50 : 85,
-          }}
-          valueStyle={compactStyle}
-          value={integerToCurrency(Math.round(average))}
-          title={
-            Math.abs(Math.round(average / 100)) > 100000
-              ? integerToCurrency(Math.round(average))
-              : undefined
-          }
-          width="flex"
-          privacyFilter
-        />
+
       </View>
     </Row>
   );

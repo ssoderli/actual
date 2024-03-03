@@ -23,8 +23,9 @@ type BudgetMonthCountProviderProps = {
 export function BudgetMonthCountProvider({
   children,
 }: BudgetMonthCountProviderProps) {
-  const [displayMax, setDisplayMax] = useState(1);
-
+  const [displayMax, setDisplayMax] = useState(5);
+  console.log('displayMax')
+  console.log(displayMax)
   return (
     <BudgetMonthCountContext.Provider value={{ displayMax, setDisplayMax }}>
       {children}

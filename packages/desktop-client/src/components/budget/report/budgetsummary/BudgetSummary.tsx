@@ -189,8 +189,8 @@ export function BudgetSummary({ month }: BudgetSummaryProps) {
               marginTop: 13,
             }}
           >
-            <IncomeTotal />
-            <ExpenseTotal />
+            // <IncomeTotal />
+            // <ExpenseTotal />
           </Stack>
         )}
 

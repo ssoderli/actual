@@ -34,80 +34,34 @@ export function TotalsList({ prevMonthName, style }: TotalsListProps) {
           minWidth: 50,
         }}
       >
-        <HoverTarget
-          style={{ flexShrink: 0 }}
-          renderContent={() => (
-            <Tooltip
-              width={200}
-              style={{ lineHeight: 1.5, padding: '6px 10px' }}
-            >
-              <AlignedText
-                left="Income:"
-                right={
-                  <CellValue
-                    binding={rolloverBudget.totalIncome}
-                    type="financial"
-                    privacyFilter={false}
-                  />
-                }
-              />
-              <AlignedText
-                left="From Last Month:"
-                right={
-                  <CellValue
-                    binding={rolloverBudget.fromLastMonth}
-                    type="financial"
-                    privacyFilter={false}
-                  />
-                }
-              />
-            </Tooltip>
-          )}
-        >
-          <CellValue
-            binding={rolloverBudget.incomeAvailable}
-            type="financial"
-            style={{ fontWeight: 600 }}
+
+        <CellValue
+               binding={rolloverBudget.totalIncome}
+               type="financial"
+               formatter={value => {
+                 const n = parseInt(value) || 0;
+                 const v = format(Math.abs(n), 'financial');
+                 return n >= 0 ? v : '+' + v;
+               }}
+               style={{ fontWeight: 600, ...styles.tnum }}
+
           />
-        </HoverTarget>
 
         <CellValue
-          binding={rolloverBudget.lastMonthOverspent}
+          binding={rolloverBudget.totalSpent}
           type="financial"
           formatter={value => {
             const v = format(value, 'financial');
-            return value > 0 ? '+' + v : value === 0 ? '-' + v : v;
+            return value > 0 ? '+' + v : value === 0 ?  + v : v;
           }}
           style={{ fontWeight: 600, ...styles.tnum }}
         />
 
-        <CellValue
-          binding={rolloverBudget.totalBudgeted}
-          type="financial"
-          formatter={value => {
-            const v = format(value, 'financial');
-            return value > 0 ? '+' + v : value === 0 ? '-' + v : v;
-          }}
-          style={{ fontWeight: 600, ...styles.tnum }}
-        />
-
-        <CellValue
-          binding={rolloverBudget.forNextMonth}
-          type="financial"
-          formatter={value => {
-            const n = parseInt(value) || 0;
-            const v = format(Math.abs(n), 'financial');
-            return n >= 0 ? '-' + v : '+' + v;
-          }}
-          style={{ fontWeight: 600, ...styles.tnum }}
-        />
       </View>
 
       <View>
-        <Block>Available Funds</Block>
-        <Block>Overspent in {prevMonthName}</Block>
-        <Block>Budgeted</Block>
-        <Block>For Next Month</Block>
+        <Block>Income</Block>
+        <Block>Spent</Block>
       </View>
     </View>
   );

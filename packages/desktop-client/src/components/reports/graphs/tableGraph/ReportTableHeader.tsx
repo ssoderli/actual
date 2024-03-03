@@ -112,14 +112,7 @@ export function ReportTableHeader({
           value="Totals"
           width="flex"
         />
-        <Cell
-          style={{
-            minWidth: compact ? 50 : 85,
-          }}
-          valueStyle={compactStyle}
-          value="Average"
-          width="flex"
-        />
+
       </View>
     </Row>
   );

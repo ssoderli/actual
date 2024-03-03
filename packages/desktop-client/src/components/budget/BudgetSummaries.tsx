@@ -33,6 +33,8 @@ export function BudgetSummaries({ SummaryComponent }: BudgetSummariesProps) {
 
   const containerRef = useResizeObserver(
     useCallback(rect => {
+      //console.log('rect')
+      //console.log(rect)
       setWidthState(rect.width);
     }, []),
   );
@@ -86,6 +88,8 @@ export function BudgetSummaries({ SummaryComponent }: BudgetSummariesProps) {
         }}
       >
         {allMonths.map(month => {
+        // console.log('monthWidth')
+        // console.log(monthWidth)
           return (
             <View
               key={month}
