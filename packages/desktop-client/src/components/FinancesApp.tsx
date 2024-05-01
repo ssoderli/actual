@@ -98,6 +98,8 @@ function RouterBehaviors() {
 
 function FinancesAppWithoutContext() {
   const actions = useActions();
+
+  /*
   useEffect(() => {
     // The default key handler scope
     hotkeys.setScope('app');
@@ -115,7 +117,7 @@ function FinancesAppWithoutContext() {
         actions.savePrefs,
       );
     }, 100);
-  }, []);
+  }, []); */
 
   return (
     <BrowserRouter>
