@@ -10,6 +10,8 @@ import { View } from '../../../common/View';
 import { CellValue } from '../../../spreadsheet/CellValue';
 import { useFormat } from '../../../spreadsheet/useFormat';
 import { Tooltip } from '../../../tooltips';
+import { useCategories } from '../../../../hooks/useCategories';
+import { useSheetValue } from '../../../spreadsheet/useSheetValue';
 
 type TotalsListProps = {
   prevMonthName: string;
@@ -17,6 +19,16 @@ type TotalsListProps = {
 };
 export function TotalsList({ prevMonthName, style }: TotalsListProps) {
   const format = useFormat();
+
+  const { grouped: categoryGroups } = useCategories();
+  const savingsGroup = categoryGroups.find(c => c.name == 'Savings')
+  const savingsValue = useSheetValue({
+    name: rolloverBudget.groupSumAmount(savingsGroup.id),
+    value: 0,
+  });
+  const savingsParsed = parseInt(savingsValue);
+  const savingsNum = isNaN(savingsParsed) ? 0 : savingsParsed;
+
   return (
     <View
       style={{
@@ -51,8 +63,9 @@ export function TotalsList({ prevMonthName, style }: TotalsListProps) {
           binding={rolloverBudget.totalSpent}
           type="financial"
           formatter={value => {
-            const v = format(value, 'financial');
-            return value > 0 ? '+' + v : value === 0 ?  + v : v;
+            const withoutSavings = value - savingsNum
+            const v = format(withoutSavings, 'financial');
+            return withoutSavings > 0 ? '+' + v : withoutSavings === 0 ?  + v : v;
           }}
           style={{ fontWeight: 600, ...styles.tnum }}
         />

@@ -21,6 +21,10 @@ import { makeAmountGrey } from '../util';
 
 import { BalanceTooltip } from './BalanceTooltip';
 
+
+import { useCategories } from '../../../hooks/useCategories';
+import { useSheetValue } from '../../spreadsheet/useSheetValue';
+
 const headerLabelStyle: CSSProperties = {
   flex: 1,
   padding: '0 5px',
@@ -29,6 +33,15 @@ const headerLabelStyle: CSSProperties = {
 
 export const BudgetTotalsMonth = memo(function BudgetTotalsMonth() {
   const format = useFormat();
+
+   const { grouped: categoryGroups } = useCategories();
+    const savingsGroup = categoryGroups.find(c => c.name == 'Savings')
+    const savingsValue = useSheetValue({
+      name: rolloverBudget.groupSumAmount(savingsGroup.id),
+      value: 0,
+    });
+    const savingsParsed = parseInt(savingsValue);
+    const savingsNum = isNaN(savingsParsed) ? 0 : savingsParsed;
   return (
     <View
       style={{
@@ -44,6 +57,11 @@ export const BudgetTotalsMonth = memo(function BudgetTotalsMonth() {
         <Text style={{ color: theme.tableHeaderText }}>Spent</Text>
         <CellValue
           binding={rolloverBudget.totalSpent}
+          formatter={value => {
+                                const withoutSavings = value - savingsNum
+                                const v = format(withoutSavings, 'financial');
+                                return withoutSavings > 0 ? '+' + v : withoutSavings === 0 ?  + v : v;
+                              }}
           type="financial"
           style={{ color: theme.tableHeaderText, fontWeight: 600 }}
         />

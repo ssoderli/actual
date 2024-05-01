@@ -11,8 +11,7 @@ import { BudgetTable } from './BudgetTable';
 
 function getNumPossibleMonths(width: number) {
   const estimatedTableWidth = width - 200;
-  console.log('getNumPossbileMonths')
-  console.log(estimatedTableWidth)
+
   if (estimatedTableWidth < 300) {
     return 1;
   } else if (estimatedTableWidth < 450) {

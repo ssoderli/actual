@@ -125,23 +125,8 @@ export function BudgetSummary({
               alignItems: 'center',
             }}
           >
-            <View>
-              <NotesButton
-                id={`budget-${month}`}
-                width={15}
-                height={15}
-                tooltipPosition="bottom-right"
-                defaultColor={theme.tableTextLight}
-              />
-            </View>
             <View style={{ userSelect: 'none', marginLeft: 2 }}>
-              <Button type="bare" aria-label="Menu" onClick={onMenuOpen}>
-                <SvgDotsHorizontalTriple
-                  width={15}
-                  height={15}
-                  style={{ color: theme.pageTextLight }}
-                />
-              </Button>
+
               {menuOpen && (
                 <Tooltip
                   position="bottom-right"

@@ -56,57 +56,7 @@ export const BudgetTotals = memo(function BudgetTotals({
         }}
       >
         <View style={{ flexGrow: '1' }}>Category</View>
-        <Button
-          type="bare"
-          aria-label="Menu"
-          onClick={() => {
-            setMenuOpen(true);
-          }}
-          style={{ color: 'currentColor', padding: 3 }}
-        >
-          <SvgDotsHorizontalTriple
-            width={15}
-            height={15}
-            style={{ color: theme.pageTextLight }}
-          />
-          {menuOpen && (
-            <Tooltip
-              position="bottom-right"
-              width={200}
-              style={{ padding: 0 }}
-              onClose={() => {
-                setMenuOpen(false);
-              }}
-            >
-              <Menu
-                onMenuSelect={type => {
-                  if (type === 'toggle-visibility') {
-                    toggleHiddenCategories();
-                  } else if (type === 'expandAllCategories') {
-                    expandAllCategories();
-                  } else if (type === 'collapseAllCategories') {
-                    collapseAllCategories();
-                  }
-                  setMenuOpen(false);
-                }}
-                items={[
-                  {
-                    name: 'toggle-visibility',
-                    text: 'Toggle hidden categories',
-                  },
-                  {
-                    name: 'expandAllCategories',
-                    text: 'Expand all',
-                  },
-                  {
-                    name: 'collapseAllCategories',
-                    text: 'Collapse all',
-                  },
-                ]}
-              />
-            </Tooltip>
-          )}
-        </Button>
+
       </View>
       <RenderMonths component={MonthComponent} />
     </View>

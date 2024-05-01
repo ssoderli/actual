@@ -4,6 +4,7 @@ import React, { useState, type ComponentPropsWithoutRef } from 'react';
 import { css } from 'glamor';
 
 import { rolloverBudget } from 'loot-core/src/client/queries';
+import { useCategories } from '../../../../hooks/useCategories';
 
 import { theme, styles, type CSSProperties } from '../../../../style';
 import { Block } from '../../../common/Block';
@@ -51,12 +52,22 @@ export function ToBudget({
     value: 0,
   });
 
+  const { grouped: categoryGroups } = useCategories();
+  const savingsGroup = categoryGroups.find(c => c.name == 'Savings')
+  const savingsValue = useSheetValue({
+    name: rolloverBudget.groupSumAmount(savingsGroup.id),
+    value: 0,
+  });
+  const savingsParsed = parseInt(savingsValue);
+  const savingsNum = isNaN(savingsParsed) ? 0 : savingsParsed;
+
+
   const spentValue = useSheetValue({
     name: rolloverBudget.totalSpent,
     value: 0,
   });
   const spentParsed = parseInt(spentValue);
-  const spentNum = isNaN(spentParsed) ? 0 : spentParsed;
+  const spentNum = (isNaN(spentParsed) ? 0 : spentParsed)  - savingsNum;
 
   const incomeValue = useSheetValue({
     name: rolloverBudget.totalIncome,
@@ -114,40 +125,7 @@ export function ToBudget({
             </Block>
           </PrivacyFilter>
         </HoverTarget>
-        {menuOpen === 'actions' && (
-          <Tooltip
-            position="bottom-center"
-            width={200}
-            style={{ padding: 0 }}
-            onClose={() => setMenuOpen(null)}
-            {...menuTooltipProps}
-          >
-            <Menu
-              onMenuSelect={type => {
-                if (type === 'reset-buffer') {
-                  onBudgetAction(month, 'reset-hold');
-                  setMenuOpen(null);
-                } else {
-                  setMenuOpen(type);
-                }
-              }}
-              items={[
-                {
-                  name: 'transfer',
-                  text: 'Move to a category',
-                },
-                {
-                  name: 'buffer',
-                  text: 'Hold for next month',
-                },
-                {
-                  name: 'reset-buffer',
-                  text: 'Reset next month’s buffer',
-                },
-              ]}
-            />
-          </Tooltip>
-        )}
+
         {menuOpen === 'buffer' && (
           <HoldTooltip
             onClose={() => setMenuOpen(null)}
