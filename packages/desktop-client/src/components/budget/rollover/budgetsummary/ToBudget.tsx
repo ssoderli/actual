@@ -1,7 +1,9 @@
 // @ts-strict-ignore
-import React, { useState, type ComponentPropsWithoutRef } from 'react';
+import React, { useState, useMemo, type ComponentPropsWithoutRef } from 'react';
 
 import { css } from 'glamor';
+
+import { processCategories } from './Util'
 
 import { rolloverBudget } from 'loot-core/src/client/queries';
 import { useCategories } from '../../../../hooks/useCategories';
@@ -53,28 +55,23 @@ export function ToBudget({
   });
 
   const { grouped: categoryGroups } = useCategories();
-  const savingsGroup = categoryGroups.find(c => c.name == 'Savings')
-  const savingsValue = useSheetValue({
-    name: rolloverBudget.groupSumAmount(savingsGroup.id),
-    value: 0,
-  });
-  const savingsParsed = parseInt(savingsValue);
-  const savingsNum = isNaN(savingsParsed) ? 0 : savingsParsed;
-
+  let {incomeIgnore, expenseIgnore} = processCategories(categoryGroups)
+  let incomeIgnoreSum = incomeIgnore
+  let expenseIgnoreSum = expenseIgnore
 
   const spentValue = useSheetValue({
     name: rolloverBudget.totalSpent,
     value: 0,
   });
   const spentParsed = parseInt(spentValue);
-  const spentNum = (isNaN(spentParsed) ? 0 : spentParsed)  - savingsNum;
+  const spentNum = (isNaN(spentParsed) ? 0 : spentParsed)  - expenseIgnoreSum;
 
   const incomeValue = useSheetValue({
     name: rolloverBudget.totalIncome,
     value: 0,
   });
   const incomeParsed = parseInt(incomeValue);
-  const incomeNum = isNaN(incomeParsed) ? 0 : incomeParsed;
+  const incomeNum = (isNaN(incomeParsed) ? 0 : incomeParsed) - incomeIgnoreSum;
 
   const format = useFormat();
   const availableValue = parseInt(sheetValue);

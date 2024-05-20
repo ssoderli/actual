@@ -125,10 +125,10 @@ export function SidebarGroup({
                   }}
                   items={[
                     { name: 'add-category', text: 'Add category' },
-                    {
+                    /*{
                       name: 'toggle-visibility',
                       text: group.hidden ? 'Show' : 'Hide',
-                    },
+                    },*/
                     { name: 'rename', text: 'Rename' },
                     onDelete && { name: 'delete', text: 'Delete' },
                   ]}

@@ -21,6 +21,8 @@ import { makeAmountGrey } from '../util';
 
 import { BalanceTooltip } from './BalanceTooltip';
 
+import { processCategories } from './budgetsummary/Util'
+
 
 import { useCategories } from '../../../hooks/useCategories';
 import { useSheetValue } from '../../spreadsheet/useSheetValue';
@@ -35,13 +37,8 @@ export const BudgetTotalsMonth = memo(function BudgetTotalsMonth() {
   const format = useFormat();
 
    const { grouped: categoryGroups } = useCategories();
-    const savingsGroup = categoryGroups.find(c => c.name == 'Savings')
-    const savingsValue = useSheetValue({
-      name: rolloverBudget.groupSumAmount(savingsGroup.id),
-      value: 0,
-    });
-    const savingsParsed = parseInt(savingsValue);
-    const savingsNum = isNaN(savingsParsed) ? 0 : savingsParsed;
+   let {incomeIgnore, expenseIgnore} = processCategories(categoryGroups)
+
   return (
     <View
       style={{
@@ -58,7 +55,7 @@ export const BudgetTotalsMonth = memo(function BudgetTotalsMonth() {
         <CellValue
           binding={rolloverBudget.totalSpent}
           formatter={value => {
-                                const withoutSavings = value - savingsNum
+                                const withoutSavings = value - expenseIgnore
                                 const v = format(withoutSavings, 'financial');
                                 return withoutSavings > 0 ? '+' + v : withoutSavings === 0 ?  + v : v;
                               }}

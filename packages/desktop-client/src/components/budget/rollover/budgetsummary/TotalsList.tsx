@@ -12,6 +12,7 @@ import { useFormat } from '../../../spreadsheet/useFormat';
 import { Tooltip } from '../../../tooltips';
 import { useCategories } from '../../../../hooks/useCategories';
 import { useSheetValue } from '../../../spreadsheet/useSheetValue';
+import { processCategories } from './Util'
 
 type TotalsListProps = {
   prevMonthName: string;
@@ -21,13 +22,7 @@ export function TotalsList({ prevMonthName, style }: TotalsListProps) {
   const format = useFormat();
 
   const { grouped: categoryGroups } = useCategories();
-  const savingsGroup = categoryGroups.find(c => c.name == 'Savings')
-  const savingsValue = useSheetValue({
-    name: rolloverBudget.groupSumAmount(savingsGroup.id),
-    value: 0,
-  });
-  const savingsParsed = parseInt(savingsValue);
-  const savingsNum = isNaN(savingsParsed) ? 0 : savingsParsed;
+  let {incomeIgnore, expenseIgnore} = processCategories(categoryGroups)
 
   return (
     <View
@@ -51,7 +46,7 @@ export function TotalsList({ prevMonthName, style }: TotalsListProps) {
                binding={rolloverBudget.totalIncome}
                type="financial"
                formatter={value => {
-                 const n = parseInt(value) || 0;
+                 const n = (parseInt(value) || 0) - incomeIgnore;
                  const v = format(Math.abs(n), 'financial');
                  return n >= 0 ? v : '+' + v;
                }}
@@ -63,7 +58,7 @@ export function TotalsList({ prevMonthName, style }: TotalsListProps) {
           binding={rolloverBudget.totalSpent}
           type="financial"
           formatter={value => {
-            const withoutSavings = value - savingsNum
+            const withoutSavings = value - expenseIgnore
             const v = format(withoutSavings, 'financial');
             return withoutSavings > 0 ? '+' + v : withoutSavings === 0 ?  + v : v;
           }}
